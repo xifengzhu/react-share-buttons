@@ -11,44 +11,48 @@ const propTypes = {
   sites: PropTypes.array,
 };
 
-// var site = getMetaContentByName('site') || getMetaContentByName('Site') || document.title;
-// var title = getMetaContentByName('title') || getMetaContentByName('Title') || document.title;
-// var description = getMetaContentByName('description') || getMetaContentByName('Description') || '';
-// var image = (document.images[0] || 0).src || ''
-var site = "baidu.com"
-var title = "My Title"
-var description = "My Description"
-var image = ""
+function getMetaContentByName(name) {
+    return (document.getElementsByName(name)[0] || 0).content;
+}
 
-const defaultProps = {
-  url: 'baidu.com',
-  origin: 'baidu.com',
-  source: site,
+var image = (document.images[0] || 0).src || '';
+var site = getMetaContentByName('site') || getMetaContentByName('Site') || document.title;
+var title = getMetaContentByName('title') || getMetaContentByName('Title') || document.title;
+var description = getMetaContentByName('description') || getMetaContentByName('Description') || '';
+var url = location.href
+var origin = location.origin
+
+var defaultProps = {
+  url: url,
+  origin: origin,
   title: title,
   description: description,
+  summary: description,
   image: image,
-  site: "baidu.com",
-  sites: ["douban", "qq"],
+  site: site,
+  source: site,
+  sites: ["qzone", "weibo", "google", "twitter", "qq", 
+          "tencent", "wechat", "douban", "linkedin", "facebook"],
   wechatQrcodeTitle: '微信扫一扫：分享',
-  // wechatQrcodeHelper: '<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>',
   wechatQrcodeHelper: '微信里点“发现”，扫一下,二维码便可将本文分享至朋友圈。',
 };
 
 class ShareButtons extends React.Component {
 
   render(){
-    //TODO: summary 和 description是一样的
     var sites = this.props.sites
-    var url = encodeURIComponent(this.props.url)
+    var url = this.props.url
+    var wechatQrcodeTitle = this.props.wechatQrcodeTitle
+    var wechatQrcodeHelper = this.props.wechatQrcodeHelper
+
     var title = encodeURIComponent(this.props.title)
     var description = encodeURIComponent(this.props.description)
     var image = encodeURIComponent(this.props.image)
     var site = encodeURIComponent(this.props.site)
     var origin = encodeURIComponent(this.props.origin)
-    var summary = encodeURIComponent(this.props.summary)
-    var source = encodeURIComponent(this.props.source)
-    var wechatQrcodeTitle = this.props.wechatQrcodeTitle
-    var wechatQrcodeHelper = this.props.wechatQrcodeHelper
+    
+    var summary = description
+    var source = site
 
     const templates = {
       qzone: `http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${url}&title=${title}&desc=${description}&summary=${summary}&site=${source}`,
@@ -69,7 +73,7 @@ class ShareButtons extends React.Component {
         var doc = <div className='wechat-qrcode'>
                     <h4>{wechatQrcodeTitle}</h4>
                     <div className='qrcode'>
-                      <QRCode value="http://google.com" size={100} />
+                      <QRCode value={url} size={100} />
                     </div>
                     <div className='help'>
                       <p>{wechatQrcodeHelper}</p>
