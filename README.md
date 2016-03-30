@@ -8,8 +8,6 @@ react-share-buttons
 
 # DEMO
 
-在线demo: http://103.253.146.179:3001
-或
 ```js
 git clone https://github.com/DawnyWu/react-share-buttons.git
 npm install
