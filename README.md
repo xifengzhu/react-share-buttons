@@ -24,11 +24,10 @@ npm start
   url = "https://github.com/DawnyWu/react-share-buttons"
   title = "react-share-buttons"
   description = "一键分享到各大社交网站的react组件"
-  image = ""
 />
 ```
 
-## props 有
+#### props 有如下这些，无特殊要求无需输入，使用默认即可:smile:
 ```js
 
 sites               : ["qzone", "weibo", "google", "twitter", "qq", 
