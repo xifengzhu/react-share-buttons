@@ -1,58 +1,70 @@
-import React, { PropTypes, Component } from 'react'
-import _ from 'lodash'
-import css from './css/share.scss'
-import QRCode from 'qrcode.react'
-
-const propTypes = {
-  url: PropTypes.string,
-  title: PropTypes.string,
-  description: PropTypes.string,
-  image: PropTypes.string,
-  sites: PropTypes.array,
-};
+import React, { PropTypes, Component } from 'react';
+import _ from 'lodash';
+import './css/share.scss';
+import QRCode from 'qrcodejs-fixed';
 
 function getMetaContentByName(name) {
-    return (document.getElementsByName(name)[0] || 0).content;
+  return (document.getElementsByName(name)[0] || 0).content;
 }
 
 let image = (document.images[0] || 0).src || '';
 let site = getMetaContentByName('site') || getMetaContentByName('Site') || document.title;
 let title = getMetaContentByName('title') || getMetaContentByName('Title') || document.title;
 let description = getMetaContentByName('description') || getMetaContentByName('Description') || '';
-let url = location.href
-let origin = location.origin
+let url = location.href;
+let origin = location.origin;
 
-let defaultProps = {
-  url: url,
-  origin: origin,
-  title: title,
-  description: description,
-  summary: description,
-  image: image,
-  site: site,
-  source: site,
-  sites: ["qzone", "weibo", "google", "twitter", "qq", 
-          "tencent", "wechat", "douban", "linkedin", "facebook"],
-  wechatQrcodeTitle: '微信扫一扫：分享',
-  wechatQrcodeHelper: '微信里点“发现”，扫一下,二维码便可将本文分享至朋友圈。',
-};
+class SocialShare extends Component {
 
-class ShareButtons extends React.Component {
+  static propTypes = {
+    url: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    image: PropTypes.string,
+    site: PropTypes.string,
+    sites: PropTypes.array,
+    wechatQrcodeTitle: PropTypes.string,
+    wechatQrcodeHelper: PropTypes.string,
+    origin: PropTypes.string,
+  };
+
+  static defaultProps = {
+    url: url,
+    origin: origin,
+    title: title,
+    description: description,
+    summary: description,
+    image: image,
+    site: site,
+    source: site,
+    sites: ["qzone", "weibo", "google", "twitter", "qq",
+            "tencent", "wechat", "douban", "linkedin", "facebook"],
+    wechatQrcodeTitle: '微信扫一扫：分享',
+    wechatQrcodeHelper: '微信里点“发现”，扫一下,二维码便可将本文分享至朋友圈。',
+  };
+
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    let { url, resource } = this.props;
+    const QRCodeEle = document.querySelector('.qrcode');
+    new QRCode(QRCodeEle, url);
+  }
 
   render(){
-    let sites = this.props.sites
-    let url = this.props.url
-    let wechatQrcodeTitle = this.props.wechatQrcodeTitle
-    let wechatQrcodeHelper = this.props.wechatQrcodeHelper
+    let { resource ,sites, url, wechatQrcodeTitle, wechatQrcodeHelper } = this.props;
 
-    let title = encodeURIComponent(this.props.title)
-    let description = encodeURIComponent(this.props.description)
-    let image = encodeURIComponent(this.props.image)
-    let site = encodeURIComponent(this.props.site)
-    let origin = encodeURIComponent(this.props.origin)
-    
-    let summary = description
-    let source = site
+    let title = encodeURIComponent(this.props.title);
+    let description = encodeURIComponent(this.props.description);
+    let image = encodeURIComponent(this.props.image);
+    let site = encodeURIComponent(this.props.site);
+    let origin = encodeURIComponent(this.props.origin);
+
+    let summary = description;
+    let source = site;
 
     const templates = {
       qzone: `http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${url}&title=${title}&desc=${description}&summary=${summary}&site=${source}`,
@@ -70,36 +82,32 @@ class ShareButtons extends React.Component {
 
     let html = _.map(sites, function (site, i) {
       if(site === "wechat"){
-        let doc = <div key={i} className='wechat-qrcode'>
+        let doc = (<div key={i} className="wechat-qrcode">
                     <h4>{wechatQrcodeTitle}</h4>
-                    <div className='qrcode'>
-                      <QRCode value={url} size={100} />
+                    <div className="qrcode">
                     </div>
-                    <div className='help'>
+                    <div className="help">
                       <p>{wechatQrcodeHelper}</p>
                     </div>
-                  </div>
+                  </div>);
         return (
-          <a key={i} className='social-share-icon icon-wechat' target='_blank' href='javascript:'>
+          <a key={i} className="social-share-icon icon-wechat" target="_blank" href="javascript:">
             {doc}
           </a>
-        )
+        );
       } else {
-        let className = `icon-${site} social-share-icon`
+        let className = `icon-${site} social-share-icon`;
         return (
           <a key={i} className={className} href={templates[site]} target="_blank"></a>
-        )
+        );
       }
-    })
+    });
     return(
       <div className="social-share">
         {html}
       </div>
-    )
-  };
-};
+    );
+  }
+}
 
-ShareButtons.propTypes = propTypes;
-ShareButtons.defaultProps = defaultProps;
-
-export default ShareButtons;
+export default SocialShare;
