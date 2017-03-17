@@ -4,12 +4,12 @@ react-share-buttons
 
 支持微信二维码扫描
 
-![react-share-buttons](https://raw.githubusercontent.com/DawnyWu/react-share-buttons/master/assets/share_buttons%402x.png)
+![react-share-buttons](https://github.com/xifengzhu/react-share-buttons/blob/master/assets/share_buttons%402x.png)
 
 # DEMO
 
 ```js
-git clone https://github.com/DawnyWu/react-share-buttons.git
+git clone https://github.com/xifengzhu/react-share-buttons.git
 npm install
 npm start
 ```
@@ -19,9 +19,9 @@ npm start
 # 使用
 
 ```js
-<ShareButtons 
+<ShareButtons
   sites = {["qzone", "weibo", "qq", "tencent", "wechat", "douban" ]}
-  url = "https://github.com/DawnyWu/react-share-buttons"
+  url = "https://github.com/xifengzhu/react-share-buttons"
   title = "react-share-buttons"
   description = "一键分享到各大社交网站的react组件"
 />
@@ -30,10 +30,10 @@ npm start
 #### props 有如下这些，无特殊要求无需输入，使用默认即可:smile:
 ```js
 
-sites               : ["qzone", "weibo", "google", "twitter", "qq", 
+sites               : ["qzone", "weibo", "google", "twitter", "qq",
                        "tencent", "wechat", "douban", "linkedin", "facebook"], // 启用的站点
 url                 : '', // 网址，默认使用 window.location.href
-source              : '', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="https://github.com/DawnyWu/react-share-buttons" />
+source              : '', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="https://github.com/xifengzhu/react-share-buttons" />
 title               : '', // 标题，默认读取 document.title 或者 <meta name="title" content="react-share-buttons" />
 description         : '', // 描述, 默认读取head标签：<meta name="description" content="一键分享到各大社交网站的react组件" />
 image               : '', // 图片, 默认取网页中第一个img标签
